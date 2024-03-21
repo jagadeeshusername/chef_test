@@ -1,18 +1,14 @@
-# copyright: 2018, The Authors
+# example.rb
 
-title "sample section"
-
-# you can also use plain tests
-describe file("/tmp") do
-  it { should be_directory }
-end
-
-# you add controls here
-control "tmp-1.0" do                        # A unique ID for this control
-  impact 0.7                                # The criticality, if this control fails.
-  title "Create /tmp directory"             # A human-readable title
-  desc "An optional description..."
-  describe file("/tmp") do                  # The actual test
-    it { should be_directory }
+control 'check-ssh-configuration' do
+  impact 1.0
+  title 'Ensure SSH configuration is secure'
+  desc 'Checks if SSH configuration is secure'
+  
+  describe sshd_config do
+    its('Protocol') { should cmp 2 }
+    its('PermitRootLogin') { should_not eq 'yes' }
+    its('PasswordAuthentication') { should eq 'no' }
   end
 end
+
