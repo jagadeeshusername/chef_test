@@ -1,0 +1,28 @@
+# .github/workflows/inspec.yml
+
+name: InSpec Tests and Docker Build
+
+on: [push]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Install Docker
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker.io
+
+    - name: Run InSpec tests
+      run: |
+        docker run --rm -v $PWD:/share chef/inspec exec /share --target ssh://your-server-ip-or-hostname
+
+    - name: Build Docker image
+      run: |
+        docker build -t your-docker-image-name .
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        docker push your-docker-image-name
+
