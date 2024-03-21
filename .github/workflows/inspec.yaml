@@ -23,6 +23,6 @@ jobs:
     - name: Build Docker image
       run: |
         docker build -t your-docker-image-name .
-        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        docker login -u Jagadeesh050695 -p Jagga.050695
         docker push your-docker-image-name
 
